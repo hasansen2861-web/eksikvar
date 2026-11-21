@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Eksik Var – Halı Saha Maç Bul</title>
+<meta name="description" content="Halı sahada eksik kalma! Maç kur, eksik oyuncu bul, takımları adil dağıt. Türkiye'nin 81 ilinde ücretsiz.">
+<meta property="og:title" content="Eksik Var – Halı sahada eksik kalma.">
+<meta property="og:description" content="Maç kur, eksik oyuncu bul, takımları adil dağıt. 81 ilde ücretsiz.">
+<meta name="theme-color" content="#1B8A3A">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231B8A3A'/><text x='50' y='68' font-size='58' text-anchor='middle'>⚽</text></svg>">
+<style>
+  :root {
+    --g:#1B8A3A; --g-dark:#0F5C25; --y:#FFC928; --bg:#F6FBF4; --fg:#142014; --muted:#566356;
+    --card:#ffffff; --line:#dde6da; --soft:#e7f5ea;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --g:#6EDB8A; --g-dark:#1B8A3A; --bg:#0d130d; --fg:#e8efe8; --muted:#a3b0a3; --card:#151d15; --line:#263026; --soft:#132a19; }
+  }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--fg); font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  a { color:inherit; }
+  .wrap { max-width:1080px; margin:0 auto; padding:0 16px; }
+
+  /* Üst menü */
+  header { position:sticky; top:0; z-index:10; background:color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+  header .wrap { display:flex; align-items:center; justify-content:space-between; height:60px; }
+  .logo { font-weight:900; letter-spacing:.5px; color:var(--g); text-decoration:none; font-size:20px; white-space:nowrap; }
+  nav { display:flex; gap:20px; font-size:15px; }
+  nav a { text-decoration:none; color:var(--muted); }
+  nav a:hover { color:var(--g); }
+  @media (max-width:640px){ nav { display:none; } }
+
+  /* Hero: saha çizgileri */
+  .hero { position:relative; overflow:hidden; background:
+      linear-gradient(180deg, var(--g) 0%, var(--g-dark) 100%); color:#fff; }
+  .hero::before { content:""; position:absolute; inset:0; opacity:.13; background:
+      repeating-linear-gradient(90deg, transparent 0 70px, rgba(255,255,255,.6) 70px 140px); }
+  .hero::after { content:""; position:absolute; width:340px; height:340px; border:3px solid rgba(255,255,255,.25); border-radius:50%; left:50%; top:50%; transform:translate(-50%,-50%); }
+  .hero .wrap { position:relative; z-index:1; display:grid; grid-template-columns:1.1fr .9fr; gap:40px; align-items:center; padding-top:64px; padding-bottom:72px; }
+  @media (max-width:860px){ .hero .wrap { grid-template-columns:1fr; text-align:center; padding-top:44px; } }
+  .badge { display:inline-block; background:rgba(255,255,255,.15); border:1px solid rgba(255,255,255,.3); padding:6px 14px; border-radius:999px; font-size:14px; }
+  .hero h1 { font-size:clamp(40px, 7vw, 64px); line-height:1.02; margin:18px 0 10px; font-weight:900; letter-spacing:-1px; }
+  .hero h1 span { color:var(--y); }
+  .hero p.lead { font-size:20px; opacity:.92; max-width:520px; margin:0 0 28px; }
+  @media (max-width:860px){ .hero p.lead { margin-left:auto; margin-right:auto; } }
+  .cta { display:flex; gap:12px; flex-wrap:wrap; }
+  @media (max-width:860px){ .cta { justify-content:center; } }
+  .btn { display:inline-flex; align-items:center; gap:10px; padding:14px 22px; border-radius:999px; font-weight:700; text-decoration:none; font-size:16px; border:0; cursor:pointer; }
+  .btn-y { background:var(--y); color:#2a2000; }
+  .btn-o { background:transparent; color:#fff; border:2px solid rgba(255,255,255,.6); }
+  .soon { font-size:13px; opacity:.8; margin-top:12px; }
+
+  /* Telefon */
+  .phone { width:280px; max-width:100%; margin:0 auto; background:#0b0f0b; border-radius:38px; padding:12px; box-shadow:0 30px 60px rgba(0,0,0,.35); }
+  .screen { background:#f6fbf4; color:#142014; border-radius:28px; overflow:hidden; text-align:left; }
+  .bar { background:#1B8A3A; color:#fff; padding:16px 16px 12px; }
+  .bar b { font-size:17px; font-weight:900; }
+  .bar small { display:block; opacity:.85; font-size:12px; }
+  .mc { background:#fff; margin:10px; border-radius:14px; padding:12px; border:1px solid #dde6da; font-size:13px; }
+  .mc b { font-size:14px; }
+  .mc .hot { color:#1B8A3A; font-weight:700; }
+  .mc .meter { height:6px; background:#e3ece1; border-radius:6px; margin-top:8px; overflow:hidden; }
+  .mc .meter i { display:block; height:100%; background:#1B8A3A; }
+  .fab { margin:12px 10px 16px; background:#FFC928; color:#2a2000; text-align:center; padding:11px; border-radius:14px; font-weight:800; font-size:14px; }
+
+  section { padding:72px 0; }
+  h2 { font-size:clamp(28px, 4vw, 38px); margin:0 0 8px; letter-spacing:-.5px; }
+  .sub { color:var(--muted); margin:0 0 36px; max-width:640px; }
+
+  /* Sorun bandı */
+  .problem { background:var(--soft); text-align:center; padding:48px 0; }
+  .chat-q { display:inline-block; background:var(--card); border:1px solid var(--line); border-radius:18px 18px 18px 4px; padding:12px 18px; margin:6px; font-size:16px; }
+  .problem p { color:var(--muted); margin-top:18px; }
+
+  /* Özellikler */
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .grid { grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .grid { grid-template-columns:1fr; } }
+  .f { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:22px; }
+  .f .ic { font-size:30px; }
+  .f h3 { margin:10px 0 6px; font-size:18px; }
+  .f p { margin:0; color:var(--muted); font-size:15px; }
+
+  /* Adımlar */
+  .steps { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; counter-reset:s; }
+  @media (max-width:760px){ .steps { grid-template-columns:1fr; } }
+  .step { position:relative; padding:22px 22px 22px 70px; background:var(--card); border:1px solid var(--line); border-radius:18px; }
+  .step::before { counter-increment:s; content:counter(s); position:absolute; left:20px; top:20px; width:36px; height:36px; border-radius:50%; background:var(--g); color:#fff; display:grid; place-items:center; font-weight:800; }
+  @media (prefers-color-scheme: dark){ .step::before { color:#00391A; } }
+  .step h3 { margin:0 0 4px; font-size:17px; }
+  .step p { margin:0; color:var(--muted); font-size:15px; }
+
+  /* Güvenilirlik */
+  .trust { display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:center; }
+  @media (max-width:760px){ .trust { grid-template-columns:1fr; } }
+  .roster { background:var(--card); border:1px solid var(--line); border-radius:18px; padding:18px 20px; }
+  .roster div { display:flex; justify-content:space-between; padding:9px 0; border-bottom:1px dashed var(--line); font-size:15px; }
+  .roster div:last-child { border-bottom:0; }
+  .roster .lo { color:#c0392b; }
+  @media (prefers-color-scheme: dark){ .roster .lo { color:#ff8a7a; } }
+
+  /* Son çağrı */
+  .final { text-align:center; background:linear-gradient(180deg, var(--g) 0%, var(--g-dark) 100%); color:#fff; border-radius:28px; padding:48px 20px; margin:0 16px; }
+  .final h2 { color:#fff; }
+  .final p { opacity:.9; margin:0 0 24px; }
+  .final .cta { justify-content:center; }
+
+  footer { padding:40px 0 48px; color:var(--muted); font-size:14px; }
+  footer .wrap { display:flex; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+  footer a { color:var(--muted); margin-right:16px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#">⚽ EKSİK VAR</a>
+    <nav>
+      <a href="#ozellikler">Özellikler</a>
+      <a href="#nasil">Nasıl çalışır?</a>
+      <a href="#guven">Güvenilirlik</a>
+      <a href="#indir">İndir</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <span class="badge">🇹🇷 81 ilde · Ücretsiz · Reklamsız</span>
+      <h1>Halı sahada<br><span>eksik kalma.</span></h1>
+      <p class="lead">Maçı kur, eksik oyuncuyu bul, takımları adil dağıt. “Bir kişi eksik” mesajlarına son.</p>
+      <div class="cta">
+        <a class="btn btn-y" href="#indir">⬇ Uygulamayı indir</a>
+        <a class="btn btn-o" id="share" href="#">📣 Arkadaşına öner</a>
+      </div>
+      <div class="soon">Google Play'de çok yakında.</div>
+    </div>
+
+    <div class="phone" aria-hidden="true">
+      <div class="screen">
+        <div class="bar"><b>Eksik Var</b><small>📍 Tuzla, İstanbul</small></div>
+        <div class="mc">
+          <b>Tuzla Arena</b><br>
+          🗓 Cuma, 21:00 · 👥 7v7<br>
+          <span class="hot">🔥 2 eksik var</span>
+          <div class="meter"><i style="width:86%"></i></div>
+        </div>
+        <div class="mc">
+          <b>Aydınlı Spor Tesisi</b><br>
+          🗓 Cumartesi, 20:00 · 👥 6v6<br>
+          <span class="hot">🔥 1 eksik var</span>
+          <div class="meter"><i style="width:92%"></i></div>
+        </div>
+        <div class="mc">
+          <b>Şifa Halı Saha</b><br>
+          🗓 Pazar, 19:00 · 👥 8v8<br>
+          <span class="hot">🔥 5 eksik var</span>
+          <div class="meter"><i style="width:69%"></i></div>
+        </div>
+        <div class="fab">Varım ✋</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="problem">
+  <div class="wrap">
+    <span class="chat-q">“Yarın maça 2 kişi eksik, gelen var mı?” 😩</span>
+    <span class="chat-q">“Ahmet yine gelmedi…” 🙄</span>
+    <span class="chat-q">“Kaleci yok, kim girecek?” 🧤</span>
+    <p>Tanıdık geldi mi? Eksik Var tam olarak bunun için var.</p>
+  </div>
+</div>
+
+<section id="ozellikler">
+  <div class="wrap">
+    <h2>Maçın her şeyi tek yerde</h2>
+    <p class="sub">WhatsApp grubunda kaybolan mesajlar, son dakika iptalleri ve “takımlar adil değil” tartışmaları geride kalsın.</p>
+    <div class="grid">
+      <div class="f"><div class="ic">⚽</div><h3>Maç kur</h3><p>Saha, tarih ve saat seç; 5v5'ten 11v11'e kadar format belirle. Kadro hazır.</p></div>
+      <div class="f"><div class="ic">🔎</div><h3>Eksik oyuncu bul</h3><p>İlçendeki maçları gör, eksik olan maça tek dokunuşla “Varım” de.</p></div>
+      <div class="f"><div class="ic">🧤</div><h3>Mevkiye göre kadro</h3><p>Kaleci, defans, orta saha, forvet. Kim nerede oynuyor, bir bakışta gör.</p></div>
+      <div class="f"><div class="ic">🎲</div><h3>Adil takım dağıt</h3><p>Tek tuşla mevkilere göre dengeli iki takım. Kaleciler ayrı takımlara.</p></div>
+      <div class="f"><div class="ic">💬</div><h3>Maç sohbeti</h3><p>“5 dk geç kalıyorum”, “top kimde?” Kadrodakilerle maç sayfasından yazış.</p></div>
+      <div class="f"><div class="ic">🔔</div><h3>Hatırlatma</h3><p>Maçtan önce bildirim gelir. Gelemeyeceksen zamanında haber ver.</p></div>
+      <div class="f"><div class="ic">📤</div><h3>Gruba paylaş</h3><p>Maçı ve takımları tek dokunuşla WhatsApp grubuna gönder.</p></div>
+      <div class="f"><div class="ic">⭐</div><h3>Güvenilirlik puanı</h3><p>Sözünü tutan oyuncular öne çıkar, “gelirim” deyip gelmeyenler belli olur.</p></div>
+      <div class="f"><div class="ic">🛡️</div><h3>Güvenli topluluk</h3><p>Uygunsuz mesajı şikâyet et, istemediğin kişiyi engelle.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="nasil" style="padding-top:0">
+  <div class="wrap">
+    <h2>3 adımda sahadasın</h2>
+    <p class="sub">Kayıt bir dakika sürer. Google hesabınla tek dokunuşta da girebilirsin.</p>
+    <div class="steps">
+      <div class="step"><h3>Profilini oluştur</h3><p>Adın, mevkin, ilin ve ilçen. Hepsi bu.</p></div>
+      <div class="step"><h3>Maç kur ya da katıl</h3><p>Kendi maçını aç veya yakınındaki eksik maçlara “Varım ✋” de.</p></div>
+      <div class="step"><h3>Sahaya çık</h3><p>Takımlar dağıtıldı, herkes hatırlatma aldı. Sana sadece oynamak kalıyor.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="guven" style="padding-top:0">
+  <div class="wrap trust">
+    <div>
+      <h2>“Gelirim” diyen gelsin.</h2>
+      <p class="sub" style="margin-bottom:12px">Maç bitince organizatör yoklama alır. Herkesin güvenilirlik puanı, söz verdiği maçlardan kaçına geldiğine göre hesaplanır.</p>
+      <p class="sub">Kadrona kimi alacağını bilerek seç. Puanını kimse elle değiştiremez.</p>
+    </div>
+    <div class="roster" aria-label="Örnek kadro">
+      <div><span>🧤 Mert K.</span><b>⭐ %100</b></div>
+      <div><span>🛡 Burak T.</span><b>⭐ %95</b></div>
+      <div><span>⚙️ Emre S.</span><b>⭐ %90</b></div>
+      <div><span>🎯 Onur A.</span><b>⭐ Yeni</b></div>
+      <div><span>🎯 Ahmet Y.</span><b class="lo">⭐ %40</b></div>
+    </div>
+  </div>
+</section>
+
+<section id="indir" style="padding-top:0">
+  <div class="final">
+    <h2>Bir kişi eksik mi? Artık değil.</h2>
+    <p>Eksik Var Google Play'de çok yakında. Arkadaşlarına şimdiden haber ver.</p>
+    <div class="cta">
+      <a class="btn btn-y" href="https://play.google.com/store/apps/details?id=com.hasan.halisaha">▶ Google Play</a>
+      <a class="btn btn-o" id="share2" href="#">📣 WhatsApp'ta paylaş</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>⚽ <b>Eksik Var</b> · Halı sahada eksik kalma.<br>Geliştirici: Hasan Şen · <a href="mailto:hasansen2861@gmail.com">hasansen2861@gmail.com</a></div>
+    <div>
+      <a href="gizlilik.html">Gizlilik Politikası</a>
+      <a href="kosullar.html">Kullanım Koşulları</a>
+      <a href="hesap-silme.html">Hesap Silme</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  var msg = "Halı sahada eksik mi kaldınız? ⚽\nEksik Var ile yakınındaki maçları bul, kadronu tamamla, takımları adil dağıt.\n\n" + location.href.split('#')[0];
+  var wa = "https://wa.me/?text=" + encodeURIComponent(msg);
+  ["share","share2"].forEach(function(id){ var a=document.getElementById(id); if(a){ a.href=wa; a.target="_blank"; a.rel="noopener"; } });
+</script>
+</body>
+</html>
